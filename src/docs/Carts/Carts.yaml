@@ -1,15 +1,9 @@
-swagger: "2.0"
-info:
-  title: "API de Carritos"
-  description: "Documentación de la API para gestionar carritos."
-  version: "1.0.0"
-basePath: "/api"
-schemes:
-  - "http"
 paths:
-  /carts:
+  /api/carts:
     get:
       summary: "Obtener todos los carritos"
+      tags:
+        - Carts
       description: "Devuelve una lista de todos los carritos."
       responses:
         200:
@@ -20,6 +14,8 @@ paths:
               $ref: "#/definitions/Cart"
     post:
       summary: "Crear un nuevo carrito"
+      tags:
+        - Carts
       description: "Crea un nuevo carrito en la base de datos."
       responses:
         201:
@@ -27,9 +23,11 @@ paths:
         400:
           description: "Error de validación. Datos incorrectos en la solicitud."
 
-  /carts/{id}:
+  /api/carts/{id}:
     get:
       summary: "Obtener un carrito por ID"
+      tags:
+        - Carts
       description: "Devuelve un carrito específico según su ID."
       parameters:
         - name: "id"
@@ -47,6 +45,8 @@ paths:
 
     put:
       summary: "Actualizar un carrito por ID"
+      tags:
+        - Carts
       description: "Actualiza un carrito existente en la base de datos según su ID."
       parameters:
         - name: "id"
@@ -68,6 +68,8 @@ paths:
 
     delete:
       summary: "Eliminar un carrito por ID"
+      tags:
+        - Carts
       description: "Elimina un carrito existente en la base de datos según su ID."
       parameters:
         - name: "id"
@@ -81,16 +83,21 @@ paths:
         404:
           description: "Carrito no encontrado. El ID proporcionado no coincide con ningún carrito."
 
-definitions:
-  Cart:
-    type: "object"
-    properties:
-      products:
-        type: "array"
-        items:
-          type: "object"
-          properties:
-            product:
-              $ref: "#/definitions/Product"
-            quantity:
-              type: "integer"
+components:
+  schemas:
+    Cart:
+      type: object
+      properties:
+        _id:
+          type: string
+          description: ID único del carrito.
+        products:
+          type: array
+          items:
+            type: object
+            properties:
+              product:
+                $ref: "#/components/schemas/Product"
+              quantity:
+                type: integer
+          description: Lista de productos en el carrito con sus cantidades.

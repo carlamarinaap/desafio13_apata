@@ -1,16 +1,9 @@
-swagger: "2.0"
-info:
-  title: "API de Productos"
-  description: "Documentación de la API para gestionar productos."
-  version: "1.0.0"
-basePath: "/api"
-schemes:
-  - "http"
-
 paths:
-  /products:
+  /api/products:
     get:
       summary: "Obtener todos los productos"
+      tags:
+        - Products
       description: "Devuelve una lista de todos los productos disponibles."
       responses:
         200:
@@ -21,6 +14,8 @@ paths:
               $ref: "#/definitions/Product"
     post:
       summary: "Crear un nuevo producto"
+      tags:
+        - Products
       description: "Crea un nuevo producto en la base de datos."
       parameters:
         - name: "product"
@@ -35,9 +30,11 @@ paths:
         400:
           description: "Error de validación. Datos incorrectos en la solicitud."
 
-  /products/{id}:
+  /api/products/{id}:
     get:
       summary: "Obtener un producto por ID"
+      tags:
+        - Products
       description: "Devuelve un producto específico según su ID."
       parameters:
         - name: "id"
@@ -55,6 +52,8 @@ paths:
 
     put:
       summary: "Actualizar un producto por ID"
+      tags:
+        - Products
       description: "Actualiza un producto existente en la base de datos según su ID."
       parameters:
         - name: "id"
@@ -76,6 +75,8 @@ paths:
 
     delete:
       summary: "Eliminar un producto por ID"
+      tags:
+        - Products
       description: "Elimina un producto existente en la base de datos según su ID."
       parameters:
         - name: "id"
@@ -89,25 +90,40 @@ paths:
         404:
           description: "Producto no encontrado. El ID proporcionado no coincide con ningún producto."
 
-definitions:
-  Product:
-    type: "object"
-    properties:
-      title:
-        type: "string"
-      description:
-        type: "string"
-      price:
-        type: "number"
-      thumbnails:
-        type: "array"
-        items:
-          type: "string"
-      code:
-        type: "string"
-      stock:
-        type: "integer"
-      category:
-        type: "string"
-      status:
-        type: "boolean"
+components:
+  schemas:
+    Product:
+      type: object
+      properties:
+        _id:
+          type: string
+          description: ID único del producto.
+        title:
+          type: string
+          description: Título del producto.
+        description:
+          type: string
+          description: Descripción del producto.
+        price:
+          type: number
+          format: float
+          description: Precio del producto.
+        thumbnails:
+          type: array
+          items:
+          description: Lista de URLs de las miniaturas del producto.
+        code:
+          type: string
+          description: Código único del producto.
+        stock:
+          type: integer
+          description: Cantidad de stock disponible del producto.
+        category:
+          type: string
+          description: Categoría del producto.
+        status:
+          type: boolean
+          description: Estado del producto (activo/inactivo).
+        owner:
+          type: string
+          description: Propietario del producto.
