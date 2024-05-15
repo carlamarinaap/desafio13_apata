@@ -1,0 +1,113 @@
+swagger: "2.0"
+info:
+  title: "API de Productos"
+  description: "Documentación de la API para gestionar productos."
+  version: "1.0.0"
+basePath: "/api"
+schemes:
+  - "http"
+
+paths:
+  /products:
+    get:
+      summary: "Obtener todos los productos"
+      description: "Devuelve una lista de todos los productos disponibles."
+      responses:
+        200:
+          description: "Operación exitosa. Devuelve la lista de productos."
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/Product"
+    post:
+      summary: "Crear un nuevo producto"
+      description: "Crea un nuevo producto en la base de datos."
+      parameters:
+        - name: "product"
+          in: "body"
+          description: "Datos del nuevo producto a crear."
+          required: true
+          schema:
+            $ref: "#/definitions/Product"
+      responses:
+        201:
+          description: "Operación exitosa. Producto creado correctamente."
+        400:
+          description: "Error de validación. Datos incorrectos en la solicitud."
+
+  /products/{id}:
+    get:
+      summary: "Obtener un producto por ID"
+      description: "Devuelve un producto específico según su ID."
+      parameters:
+        - name: "id"
+          in: "path"
+          description: "ID del producto a buscar."
+          required: true
+          type: "string"
+      responses:
+        200:
+          description: "Operación exitosa. Devuelve el producto solicitado."
+          schema:
+            $ref: "#/definitions/Product"
+        404:
+          description: "Producto no encontrado. El ID proporcionado no coincide con ningún producto."
+
+    put:
+      summary: "Actualizar un producto por ID"
+      description: "Actualiza un producto existente en la base de datos según su ID."
+      parameters:
+        - name: "id"
+          in: "path"
+          description: "ID del producto a actualizar."
+          required: true
+          type: "string"
+        - name: "product"
+          in: "body"
+          description: "Datos actualizados del producto."
+          required: true
+          schema:
+            $ref: "#/definitions/Product"
+      responses:
+        200:
+          description: "Operación exitosa. Producto actualizado correctamente."
+        404:
+          description: "Producto no encontrado. El ID proporcionado no coincide con ningún producto."
+
+    delete:
+      summary: "Eliminar un producto por ID"
+      description: "Elimina un producto existente en la base de datos según su ID."
+      parameters:
+        - name: "id"
+          in: "path"
+          description: "ID del producto a eliminar."
+          required: true
+          type: "string"
+      responses:
+        204:
+          description: "Operación exitosa. Producto eliminado correctamente."
+        404:
+          description: "Producto no encontrado. El ID proporcionado no coincide con ningún producto."
+
+definitions:
+  Product:
+    type: "object"
+    properties:
+      title:
+        type: "string"
+      description:
+        type: "string"
+      price:
+        type: "number"
+      thumbnails:
+        type: "array"
+        items:
+          type: "string"
+      code:
+        type: "string"
+      stock:
+        type: "integer"
+      category:
+        type: "string"
+      status:
+        type: "boolean"
